@@ -55,6 +55,28 @@ export function Profile() {
 
   const handleProfileSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validar que documento y teléfono sean exactamente 10 dígitos numéricos
+    const digitRegex = /^\d{10}$/;
+    if (formData.document && !digitRegex.test(formData.document)) {
+      toast.error('El documento de identidad debe tener exactamente 10 dígitos numéricos.');
+      return;
+    }
+    if (formData.phone && !digitRegex.test(formData.phone)) {
+      toast.error('El teléfono debe tener exactamente 10 dígitos numéricos.');
+      return;
+    }
+
+    // Validar unicidad excluyendo al propio usuario
+    if (allUsers.some((u: any) => u.documento === formData.document && u.email !== user?.email)) {
+      toast.error('Este documento de identidad ya está siendo usado por otra cuenta.');
+      return;
+    }
+    if (allUsers.some((u: any) => u.telefono === formData.phone && u.email !== user?.email)) {
+      toast.error('Este número de teléfono ya está siendo usado por otra cuenta.');
+      return;
+    }
+
     // Validar nombre y apellido para no permitir números
     const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
     if (!nameRegex.test(formData.firstName) || !nameRegex.test(formData.lastName)) {

@@ -106,6 +106,28 @@ export function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validar que documento y teléfono sean exactamente 10 dígitos numéricos
+    const digitRegex = /^\d{10}$/;
+    if (!digitRegex.test(documento)) {
+      toast.error('El documento de identidad debe tener exactamente 10 dígitos numéricos.');
+      return;
+    }
+    if (!digitRegex.test(telefono)) {
+      toast.error('El teléfono debe tener exactamente 10 dígitos numéricos.');
+      return;
+    }
+
+    // Validar que sean únicos en el sistema
+    const savedUsers = JSON.parse(localStorage.getItem('sp_users') || '[]');
+    if (savedUsers.some((u: any) => u.documento === documento)) {
+      toast.error('Este documento de identidad ya está registrado en otra cuenta.');
+      return;
+    }
+    if (savedUsers.some((u: any) => u.telefono === telefono)) {
+      toast.error('Este número de teléfono ya está registrado en otra cuenta.');
+      return;
+    }
+
     // Validar que el nombre solo tenga letras y espacios (incluye tildes y la ñ)
     const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
     if (!nameRegex.test(name)) {

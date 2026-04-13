@@ -87,6 +87,15 @@ export function Vehicles() {
       return toast.error('¡Faltan detalles! 🏎️ No olvides llenar todos los campos obligatorios y subir la foto de tu vehículo.');
     }
 
+    // Validar que documento y teléfono sean de 10 dígitos numéricos
+    const digitRegex = /^\d{10}$/;
+    if (!digitRegex.test(formData.document)) {
+      return toast.error('El documento del propietario debe tener exactamente 10 dígitos numéricos.');
+    }
+    if (!digitRegex.test(formData.phone)) {
+      return toast.error('El teléfono de contacto debe tener exactamente 10 dígitos numéricos.');
+    }
+
     // NUEVA VALIDACIÓN: Evitar placas duplicadas y notificar seguridad
     const duplicate = vehicles.find(v => v.plate === formData.plate.toUpperCase() && v.id !== editingId);
     if (duplicate) {
