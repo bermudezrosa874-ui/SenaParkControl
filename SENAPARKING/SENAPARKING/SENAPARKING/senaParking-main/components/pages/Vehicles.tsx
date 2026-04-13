@@ -87,12 +87,13 @@ export function Vehicles() {
       return toast.error('¡Faltan detalles! 🏎️ No olvides llenar todos los campos obligatorios y subir la foto de tu vehículo.');
     }
 
-    // Validar que documento y teléfono sean de 10 dígitos numéricos
-    const digitRegex = /^\d{10}$/;
-    if (!digitRegex.test(formData.document)) {
-      return toast.error('El documento del propietario debe tener exactamente 10 dígitos numéricos.');
+    // Validar que el documento sea numérico y el teléfono tenga 10 dígitos
+    const docRegex = /^\d+$/;
+    const phoneRegex = /^\d{10}$/;
+    if (!docRegex.test(formData.document)) {
+      return toast.error('El documento del propietario debe ser numérico.');
     }
-    if (!digitRegex.test(formData.phone)) {
+    if (!phoneRegex.test(formData.phone)) {
       return toast.error('El teléfono de contacto debe tener exactamente 10 dígitos numéricos.');
     }
 

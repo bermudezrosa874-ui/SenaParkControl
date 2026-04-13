@@ -106,13 +106,14 @@ export function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validar que documento y teléfono sean exactamente 10 dígitos numéricos
-    const digitRegex = /^\d{10}$/;
-    if (!digitRegex.test(documento)) {
-      toast.error('El documento de identidad debe tener exactamente 10 dígitos numéricos.');
+    // Validar que el documento sea numérico y el teléfono tenga exactamente 10 dígitos
+    const docRegex = /^\d+$/;
+    const phoneRegex = /^\d{10}$/;
+    if (!docRegex.test(documento)) {
+      toast.error('El documento de identidad debe ser numérico.');
       return;
     }
-    if (!digitRegex.test(telefono)) {
+    if (!phoneRegex.test(telefono)) {
       toast.error('El teléfono debe tener exactamente 10 dígitos numéricos.');
       return;
     }
