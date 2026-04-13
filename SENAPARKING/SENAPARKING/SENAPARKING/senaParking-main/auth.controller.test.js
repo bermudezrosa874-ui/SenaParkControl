@@ -82,7 +82,7 @@ describe('SUITE 2 — CONTROLADOR DE AUTENTICACION', () => {
 
   it('TC-AUTH-07: Token generado contiene datos correctos del usuario', async () => {
     req.body = { correo: 'test@sena.edu.co', contrasena: 'bien' };
-    User.findByEmail.mockResolvedValue({ IdUsuario: 1, IdRol: 2, Correo: 'test@sena.edu.co' });
+    User.findByEmail.mockResolvedValue({ IdUsuario: 1, IdRol: 2, Correo: 'test@sena.edu.co', Contrasena: 'hash' });
     bcrypt.compare.mockResolvedValue(true);
     
     await authController.login(req, res);

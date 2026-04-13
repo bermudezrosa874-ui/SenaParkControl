@@ -156,11 +156,17 @@ export function Vehicles() {
   };
 
   const handleDelete = (id: number) => {
-    if (window.confirm('¿Estás totalmente seguro de despedirte de este vehículo? 🗑️')) {
-      const updatedVehicles = vehicles.filter(v => v.id !== id);
-      setVehicles(updatedVehicles);
-      localStorage.setItem('sp_vehicles', JSON.stringify(updatedVehicles));
-    }
+    const updatedVehicles = vehicles.map(v => v.id === id ? { ...v, status: 'Inactivo' } : v);
+    setVehicles(updatedVehicles);
+    localStorage.setItem('sp_vehicles', JSON.stringify(updatedVehicles));
+    toast.success('Vehículo rechazado exitosamente');
+  };
+
+  const handleActivate = (id: number) => {
+    const updatedVehicles = vehicles.map(v => v.id === id ? { ...v, status: 'Activo' } : v);
+    setVehicles(updatedVehicles);
+    localStorage.setItem('sp_vehicles', JSON.stringify(updatedVehicles));
+    toast.success('Vehículo reactivado exitosamente');
   };
 
   const handleApprove = (id: number) => {
@@ -456,7 +462,12 @@ export function Vehicles() {
                             <Button variant="outline" size="sm" className="text-green-600 border-green-600 hover:bg-green-50" onClick={() => handleApprove(vehicle.id)}>Aprobar</Button>
                           )}
                           <Button variant="ghost" size="sm" onClick={() => handleEdit(vehicle)}>Editar</Button>
-                          <Button variant="ghost" size="sm" className="text-red-600" onClick={() => handleDelete(vehicle.id)}>Eliminar</Button>
+                          {(user?.role === 'Administrador' || user?.role === 'Vigilante') && vehicle.status === 'Inactivo' && (
+                            <Button variant="outline" size="sm" className="text-green-600 border-green-600 hover:bg-green-50" onClick={() => handleActivate(vehicle.id)}>Activar</Button>
+                          )}
+                          {vehicle.status !== 'Inactivo' && (
+                            <Button variant="ghost" size="sm" className="text-red-600" onClick={() => handleDelete(vehicle.id)}>Rechazar</Button>
+                          )}
                         </div>
                       </td>
                     </tr>

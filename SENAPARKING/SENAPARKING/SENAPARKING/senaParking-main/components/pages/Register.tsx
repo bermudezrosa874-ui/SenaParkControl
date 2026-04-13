@@ -105,6 +105,21 @@ export function Register() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validar que el nombre solo tenga letras y espacios (incluye tildes y la ñ)
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    if (!nameRegex.test(name)) {
+      toast.error('El nombre solo puede contener letras y espacios. No se permiten números.');
+      return;
+    }
+
+    // Validar contraseña: Mínimo 5 chars, letras y números
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
+    if (!passwordRegex.test(password)) {
+      toast.error('La contraseña debe tener al menos 5 caracteres, incluyendo letras y números.');
+      return;
+    }
+
     if (!acceptedTerms) {
       toast.error('Debes aceptar el tratamiento de datos personales para poder registrarte.');
       return;
@@ -274,7 +289,6 @@ export function Register() {
                   </SelectTrigger>
                   <SelectContent className="bg-white">
                     <SelectItem value="Usuario Sena">Usuario Sena</SelectItem>
-                    <SelectItem value="Administrador">Administrador</SelectItem>
                     <SelectItem value="Vigilante">Vigilante</SelectItem>
                     <SelectItem value="Visitante">Visitante</SelectItem>
                   </SelectContent>

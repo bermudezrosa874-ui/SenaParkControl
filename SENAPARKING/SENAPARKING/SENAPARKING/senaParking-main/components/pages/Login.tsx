@@ -64,6 +64,14 @@ export function Login() {
 
   const handleResetPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validar la nueva contraseña con las reglas de seguridad
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
+    if (!passwordRegex.test(newPassword)) {
+      toast.error('La nueva contraseña debe tener al menos 5 caracteres, incluyendo letras y números.');
+      return;
+    }
+
     setResetLoading(true);
     try {
       const response = await fetch('http://127.0.0.1:4000/api/auth/reset-password', {

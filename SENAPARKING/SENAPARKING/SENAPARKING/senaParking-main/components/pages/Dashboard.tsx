@@ -42,11 +42,10 @@ export function Dashboard() {
   };
 
   const handleRejectVehicle = (id: number) => {
-    if (window.confirm('¿Deseas dar de baja esta solicitud de vehículo? ❌ Esta acción es definitiva.')) {
-      const updated = vehicles.filter(v => v.id !== id);
-      setVehicles(updated);
-      localStorage.setItem('sp_vehicles', JSON.stringify(updated));
-    }
+    const updated = vehicles.map(v => v.id === id ? { ...v, status: 'Inactivo' } : v);
+    setVehicles(updated);
+    localStorage.setItem('sp_vehicles', JSON.stringify(updated));
+    toast.success('Vehículo rechazado exitosamente');
   };
 
   const [movements, setMovements] = useState<any[]>(() => {
@@ -108,11 +107,10 @@ export function Dashboard() {
   };
 
   const handleRejectEntry = (id: number) => {
-    if (window.confirm('¿Estás seguro de cerrar la barrera y rechazar esta entrada? 🛑')) {
-      const updated = entryRequests.filter(r => r.id !== id);
-      setEntryRequests(updated);
-      localStorage.setItem('sp_entry_requests', JSON.stringify(updated));
-    }
+    const updated = entryRequests.filter(r => r.id !== id);
+    setEntryRequests(updated);
+    localStorage.setItem('sp_entry_requests', JSON.stringify(updated));
+    toast.success('Entrada rechazada');
   };
 
   const handleRequestExit = (vehicle: any) => {
@@ -156,11 +154,10 @@ export function Dashboard() {
   };
 
   const handleRejectExit = (id: number) => {
-    if (window.confirm('¿Estás seguro de denegar esta salida? 🚧')) {
-      const updated = exitRequests.filter(r => r.id !== id);
-      setExitRequests(updated);
-      localStorage.setItem('sp_exit_requests', JSON.stringify(updated));
-    }
+    const updated = exitRequests.filter(r => r.id !== id);
+    setExitRequests(updated);
+    localStorage.setItem('sp_exit_requests', JSON.stringify(updated));
+    toast.success('Salida denegada');
   };
 
   const [alerts] = useState<any[]>(() => {
@@ -230,11 +227,24 @@ export function Dashboard() {
   };
 
   const handleRejectUser = (id: number) => {
-    if (window.confirm('¿Estás seguro de eliminar/rechazar este usuario?')) {
-      const updated = registeredUsers.filter(u => u.id !== id);
-      setRegisteredUsers(updated);
-      localStorage.setItem('sp_users', JSON.stringify(updated));
-    }
+    const updated = registeredUsers.map(u => u.id === id ? { ...u, status: 'Inactivo' } : u);
+    setRegisteredUsers(updated);
+    localStorage.setItem('sp_users', JSON.stringify(updated));
+    toast.success('Usuario rechazado exitosamente');
+  };
+
+  const handleInactivateUser = (id: number) => {
+    const updated = registeredUsers.map(u => u.id === id ? { ...u, status: 'Inactivo' } : u);
+    setRegisteredUsers(updated);
+    localStorage.setItem('sp_users', JSON.stringify(updated));
+    toast.success('Usuario inactivado exitosamente');
+  };
+
+  const handleActivateUser = (id: number) => {
+    const updated = registeredUsers.map(u => u.id === id ? { ...u, status: 'Activo' } : u);
+    setRegisteredUsers(updated);
+    localStorage.setItem('sp_users', JSON.stringify(updated));
+    toast.success('Usuario reactivado exitosamente');
   };
 
   // Renderizar contenido según el rol
@@ -654,6 +664,20 @@ export function Dashboard() {
                 </Button>
                 <Button size="sm" variant="outline" className="text-red-600 border-red-600" onClick={() => handleRejectUser(u.id)}>
                   <XCircle className="w-4 h-4 mr-1" /> Rechazar
+                </Button>
+              </div>
+            )}
+            {u.status === 'Activo' && (
+              <div className="flex space-x-2 ml-4">
+                <Button size="sm" variant="outline" className="text-red-600 border-red-600 hover:bg-red-50" onClick={() => handleInactivateUser(u.id)}>
+                  <XCircle className="w-4 h-4 mr-1" /> Inactivar
+                </Button>
+              </div>
+            )}
+            {u.status === 'Inactivo' && (
+              <div className="flex space-x-2 ml-4">
+                <Button size="sm" variant="outline" className="text-green-600 border-green-600 hover:bg-green-50" onClick={() => handleActivateUser(u.id)}>
+                  <CheckCircle2 className="w-4 h-4 mr-1" /> Activar
                 </Button>
               </div>
             )}

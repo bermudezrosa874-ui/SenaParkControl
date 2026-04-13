@@ -24,9 +24,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+import { toast } from 'sonner';
 
 export function Admin() {
-  const [users] = useState(() => {
+  const [users, setUsers] = useState<any[]>(() => {
     const saved = JSON.parse(localStorage.getItem('sp_users') || '[]');
     return saved;
   });
@@ -40,13 +41,28 @@ export function Admin() {
     const updated = vehicles.map(v => v.id === id ? { ...v, status: 'Activo' } : v);
     setVehicles(updated);
     localStorage.setItem('sp_vehicles', JSON.stringify(updated));
-    alert('Vehículo aprobado exitosamente');
+    toast.success('Vehículo aprobado exitosamente');
   };
 
   const handleRejectVehicle = (id: number) => {
-    const updated = vehicles.filter(v => v.id !== id);
+    const updated = vehicles.map(v => v.id === id ? { ...v, status: 'Inactivo' } : v);
     setVehicles(updated);
     localStorage.setItem('sp_vehicles', JSON.stringify(updated));
+    toast.success('Vehículo rechazado exitosamente');
+  };
+
+  const handleInactivateUser = (id: number) => {
+    const updated = users.map(u => u.id === id ? { ...u, status: 'Inactivo' } : u);
+    setUsers(updated);
+    localStorage.setItem('sp_users', JSON.stringify(updated));
+    toast.success('Usuario inactivado/rechazado exitosamente');
+  };
+
+  const handleActivateUser = (id: number) => {
+    const updated = users.map(u => u.id === id ? { ...u, status: 'Activo' } : u);
+    setUsers(updated);
+    localStorage.setItem('sp_users', JSON.stringify(updated));
+    toast.success('Usuario reactivado exitosamente');
   };
 
   const systemSettings = [
@@ -191,9 +207,20 @@ export function Admin() {
                                 <DropdownMenuItem>Ver Perfil</DropdownMenuItem>
                                 <DropdownMenuItem>Editar</DropdownMenuItem>
                                 <DropdownMenuItem>Cambiar Rol</DropdownMenuItem>
-                                <DropdownMenuItem className="text-red-600">
-                                  Desactivar
-                                </DropdownMenuItem>
+                                {user.status === 'Pendiente' && (
+                                  <DropdownMenuItem className="text-green-600" onClick={() => handleActivateUser(user.id)}>
+                                    Aprobar
+                                  </DropdownMenuItem>
+                                )}
+                                {user.status === 'Inactivo' ? (
+                                  <DropdownMenuItem className="text-green-600" onClick={() => handleActivateUser(user.id)}>
+                                    Activar
+                                  </DropdownMenuItem>
+                                ) : (
+                                  <DropdownMenuItem className="text-red-600" onClick={() => handleInactivateUser(user.id)}>
+                                    {user.status === 'Pendiente' ? 'Rechazar' : 'Inactivar'}
+                                  </DropdownMenuItem>
+                                )}
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
@@ -214,7 +241,7 @@ export function Admin() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert('Usuario guardado exitosamente'); }}>
+                    <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); toast.success('Usuario guardado exitosamente'); }}>
                       <div className="space-y-2">
                         <Label htmlFor="name">Nombre Completo</Label>
                         <Input id="name" placeholder="Juan Pérez" />
@@ -232,7 +259,6 @@ export function Admin() {
                             <SelectValue placeholder="Seleccionar rol" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="admin">Administrador</SelectItem>
                             <SelectItem value="supervisor">Supervisor</SelectItem>
                             <SelectItem value="guard">Guardia de Seguridad</SelectItem>
                           </SelectContent>

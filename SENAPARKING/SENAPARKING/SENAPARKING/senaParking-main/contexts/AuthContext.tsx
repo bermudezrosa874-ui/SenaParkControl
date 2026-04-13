@@ -95,6 +95,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (pendingUser && pendingUser.status === 'Pendiente') {
         throw new Error('Tu cuenta está en revisión. Un administrador o vigilante debe aprobarla antes de poder ingresar.');
       }
+      if (pendingUser && pendingUser.status === 'Inactivo') {
+        throw new Error('Tu cuenta ha sido inactivada. Por favor, contacta al administrador.');
+      }
 
       // Guardar el token en el almacenamiento local
       localStorage.setItem('sp_token', token);

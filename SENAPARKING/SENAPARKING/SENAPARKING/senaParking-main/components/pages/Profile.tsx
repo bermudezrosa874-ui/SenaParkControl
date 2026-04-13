@@ -55,6 +55,13 @@ export function Profile() {
 
   const handleProfileSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Validar nombre y apellido para no permitir números
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    if (!nameRegex.test(formData.firstName) || !nameRegex.test(formData.lastName)) {
+      toast.error('El nombre y apellido solo pueden contener letras y espacios, sin números.');
+      return;
+    }
+
     const updatedUsers = allUsers.map((u: any) => {
       if (u.email === user?.email) {
         return {
@@ -78,6 +85,14 @@ export function Profile() {
       toast.error('¡Ojo ahí! 👀 Las contraseñas nuevas no son gemelas. Inténtalo de nuevo.');
       return;
     }
+
+    // Validar que la nueva contraseña cumpla con las políticas de seguridad
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
+    if (!passwordRegex.test(passwords.new)) {
+      toast.error('La nueva contraseña debe tener al menos 5 caracteres, incluyendo letras y números.');
+      return;
+    }
+
     if (!passwords.current || !passwords.new) {
       toast.error('¡No te saltes ningún campo de contraseña, todos son importantes! 🗝️');
       return;
