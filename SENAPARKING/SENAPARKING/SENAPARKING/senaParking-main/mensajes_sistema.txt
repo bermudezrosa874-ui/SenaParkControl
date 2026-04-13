@@ -1,0 +1,43 @@
+=== MENSAJES DE ERROR Y ÉXITO DEL SISTEMA SENAPARKCONTROL ===
+
+--- LOGIN ---
+ÉXITO: "¡Listo! ✉️ El código de seguridad está volando hacia tu bandeja de entrada."
+ÉXITO: "¡Contraseña renovada! 🔐 Ya tienes las llaves para entrar de nuevo."
+ERROR: "¡Oh no! 🚨 Hubo un problema al iniciar sesión: [mensaje del servidor]"
+ERROR: "¡Oh no! 🚨 Algo salió mal: [mensaje del servidor]"
+
+--- REGISTRO ---
+ÉXITO: "¡Genial! 🎉 Te has registrado con éxito. Bienvenido a la familia SenaParkControl."
+ERROR: "¡Ups! 📸 No pudimos acceder a tu cámara. Necesitamos ver tu sonrisa para el registro, por favor concede los permisos."
+ERROR: "¡Falta tu foto! 🤳 No podemos registrarte sin verte primero."
+ERROR: "¡Oh no! 🚨 Algo salió mal: [mensaje del servidor]"
+
+--- DASHBOARD ---
+ÉXITO: "¡Luz verde! 🟢 El vehículo ahora es oficial en SenaParkControl."
+ÉXITO: "¡Permiso solicitado! 🎫 El guardia ya tiene tu solicitud de entrada."
+ÉXITO: "¡Pase concedido! 🚦 Entrada aprobada y registrada en bitácora."
+ÉXITO: "¡Solicitud de salida enviada! 🛣️ El guardia te abrirá pronto."
+ÉXITO: "¡Buen viaje! 🚗 Salida aprobada y registrada exitosamente."
+ÉXITO: "Usuario aprobado exitosamente"
+ERROR: "¡Calma motor! 🏎️ Ya tienes una solicitud de entrada rodando para este vehículo."
+ERROR: "¡Frena un poco! 🛑 Ya tienes una solicitud de salida en proceso."
+
+--- ENTRADAS Y SALIDAS ---
+ÉXITO: "¡Check de seguridad! ✅ Movimiento registrado sin contratiempos."
+ERROR: "¡Faltan datos en la portería! 🛑 Por favor, completa la Placa, el Tipo de movimiento y el Guardia."
+ERROR: "¡Vehículo fantasma! 👻 Esa placa no existe en nuestros registros. Por favor, regístralo primero."
+ERROR: "¡Acceso denegado! 🚫 Este vehículo aún no tiene luz verde (no está Activo/Aprobado)."
+
+--- VEHÍCULOS ---
+ÉXITO: "¡Datos al día! 🛠️ Tu vehículo se ha actualizado correctamente."
+ÉXITO: "¡Nave lista! 🚀 Tu vehículo ha sido registrado exitosamente."
+ÉXITO: "¡Luz verde! 🟢 Vehículo aprobado y listo para rodar."
+ERROR: "¡Ups! 📸 No pudimos acceder a tu cámara. Necesitamos una foto de tu nave, por favor concede los permisos."
+ERROR: "¡Faltan detalles! 🏎️ No olvides llenar todos los campos obligatorios (*) y subir la foto de tu vehículo."
+ERROR: "¡Alerta de clonación! 🚨 La placa [...] ya pertenece a otro usuario..."
+
+--- PERFIL ---
+ÉXITO: "¡Estilo renovado! 💅 Tu perfil ha sido actualizado. Inicia sesión nuevamente..."
+ÉXITO: "¡Fortaleza asegurada! 🏰 Tu contraseña se actualizó correctamente."
+ERROR: "¡Ojo ahí! 👀 Las contraseñas nuevas no son gemelas. Inténtalo de nuevo."
+ERROR: "¡No te saltes ningún campo de contraseña, todos son importantes! 🗝️"
